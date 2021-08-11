@@ -1,0 +1,14 @@
+body {
+	
+}
+.value {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+}
+

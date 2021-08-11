@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 	
 	<lifecycle>
-		<phase-listener>br.com.locacao.util.Autorizador</phase-listener>
-		<phase-listener>br.com.locacao.util.LogPhaseListener</phase-listener>
+		<phase-listener>br.com.sistema.util.Autorizador</phase-listener>
+		<phase-listener>br.com.sistema.util.LogPhaseListener</phase-listener>
 	</lifecycle>
 </faces-config>
