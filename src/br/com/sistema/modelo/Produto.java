@@ -7,6 +7,7 @@ public class Produto {
 	private String nome;
 	private String descricao;
 	private BigDecimal preco;
+	private boolean desativado;
 	
 	public Produto() {
 		
@@ -18,6 +19,14 @@ public class Produto {
 		this.preco = preco;
 	}
 	
+	public boolean isDesativado() {
+		return desativado;
+	}
+
+	public void setDesativado(boolean desativado) {
+		this.desativado = desativado;
+	}
+
 	public Integer getId() {
 		return id;
 	}
