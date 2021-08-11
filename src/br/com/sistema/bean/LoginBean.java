@@ -3,7 +3,6 @@ package br.com.sistema.bean;
 import java.sql.SQLException;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.NavigationHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
