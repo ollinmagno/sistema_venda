@@ -4,26 +4,67 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sistema.modelo.EntradaDeProduto;
 import br.com.sistema.modelo.Produto;
 
 public class ProdutoDAO {
 	
-
-	public void adicionaProduto(Produto produto) throws SQLException {
+	public void gravarProduto(EntradaDeProduto entradaDeProduto) throws SQLException {
+		Connection connection = null;
+		
+		try {
+			connection = new ConnectionFactory().recuperarConexao();
+			connection.setAutoCommit(false);
+			boolean adicionaProdutoFuncionou = adicionaProduto(entradaDeProduto.getProduto());
+			boolean registrarEntradaFuncionou = registrarEntrada(entradaDeProduto);
+			System.out.println("registro "+ registrarEntradaFuncionou +", "+ adicionaProdutoFuncionou);
+			System.out.println(entradaDeProduto.getProduto().toString());
+			if(adicionaProdutoFuncionou && registrarEntradaFuncionou) {
+				connection.commit();
+			}
+		}catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			connection.close();
+		}
+	}
+	
+	private boolean registrarEntrada(EntradaDeProduto entradaDeProduto) {
+		boolean funcionou = false;
+		String sql = "INSERT INTO ENTRADA_DE_PRODUTO (DATA, QUANTIDADE, DESCRICAO, ID_PRODUTO) VALUES (CURRENT_TIMESTAMP,?,?,1);";
+		try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+			try (PreparedStatement pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+				pstm.setDouble(1, entradaDeProduto.getQuantidade());
+				pstm.setString(2, entradaDeProduto.getDescricacao());
+				//pstm.setInt(3, entradaDeProduto.getProduto().getId());
+				pstm.executeUpdate();
+			}
+			funcionou = true;
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return funcionou;
+	}
+	
+	private boolean adicionaProduto(Produto produto) throws SQLException {
+		boolean funcionou = false;
 		String sql = "INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO, DESATIVADO) VALUES (?,?,?,0);";
 		try (Connection connection = new ConnectionFactory().recuperarConexao()) {
 			try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 				pstm.setString(1, produto.getNome());
 				pstm.setString(2, produto.getDescricao());
 				pstm.setBigDecimal(3, produto.getPreco());
-				pstm.execute();
+				pstm.executeUpdate();
 			}
+			funcionou = true;
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
+		return funcionou;
 	}
 	
 	public List<Produto> listaProdutos() throws SQLException{
