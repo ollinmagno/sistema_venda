@@ -13,8 +13,7 @@ public class EntradaDeProduto {
 		
 	}
 
-	public EntradaDeProduto(LocalDateTime data, double quantidade, String descricacao, Produto produto) {
-		this.data = data;
+	public EntradaDeProduto(double quantidade, String descricacao, Produto produto) {
 		this.quantidade = quantidade;
 		this.descricacao = descricacao;
 		this.produto = produto;
