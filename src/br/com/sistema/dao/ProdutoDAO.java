@@ -21,8 +21,6 @@ public class ProdutoDAO {
 			connection.setAutoCommit(false);
 			boolean adicionaProdutoFuncionou = adicionaProduto(entradaDeProduto.getProduto());
 			boolean registrarEntradaFuncionou = registrarEntrada(entradaDeProduto);
-			System.out.println("registro "+ registrarEntradaFuncionou +", "+ adicionaProdutoFuncionou);
-			System.out.println(entradaDeProduto.getProduto().toString());
 			if(adicionaProdutoFuncionou && registrarEntradaFuncionou) {
 				connection.commit();
 			}
@@ -40,8 +38,20 @@ public class ProdutoDAO {
 			try (PreparedStatement pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 				pstm.setDouble(1, entradaDeProduto.getQuantidade());
 				pstm.setString(2, entradaDeProduto.getDescricacao());
-				//pstm.setInt(3, entradaDeProduto.getProduto().getId());
-				pstm.executeUpdate();
+				int affectedRows = pstm.executeUpdate();
+
+		        if (affectedRows == 0) {
+		            throw new SQLException("Falhou, nenhuma linha afetada.");
+		        }
+
+		        try (ResultSet generatedKeys = pstm.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		                entradaDeProduto.getProduto().setId(generatedKeys.getInt(1));
+		            }
+		            else {
+		                throw new SQLException("Falhou, nenhum ID obtido");
+		            }
+		        }
 			}
 			funcionou = true;
 		} catch (SQLException e) {
