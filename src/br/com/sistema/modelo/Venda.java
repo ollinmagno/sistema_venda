@@ -7,14 +7,14 @@ public class Venda {
 	private String nome;
 	private String descricao;
 	private BigDecimal preco;
-	private double quantidade;
+	private int quantidade;
 	private Produto produto;
 	
 	public Venda() {
 		
 	}
 	
-	public Venda(String nome, String descricao, BigDecimal preco, double quantidade, Produto produto) {
+	public Venda(String nome, String descricao, BigDecimal preco, int quantidade, Produto produto) {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
@@ -54,11 +54,11 @@ public class Venda {
 		this.preco = preco;
 	}
 
-	public double getQuantidade() {
+	public int getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(double quantidade) {
+	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
 
